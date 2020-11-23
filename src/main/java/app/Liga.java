@@ -57,6 +57,11 @@ public class Liga implements Serializable {
 	public void setEquipos(List<Equipo> equipos) {
 		this.equipos = equipos;
 	}
+
+	@Override
+	public String toString() {
+		return  codLiga + " | " + nomLiga;
+	}
 	
 	
 

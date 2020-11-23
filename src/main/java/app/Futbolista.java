@@ -59,6 +59,12 @@ public class Futbolista implements Serializable {
 	public void setContratos(List<Contrato> contratos) {
 		this.contratos = contratos;
 	}
+
+	@Override
+	public String toString() {
+		return  codDNIoNIE + " | " + nombre + " | " + nacionalidad;
+	}
+	
 	
 	
 }

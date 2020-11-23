@@ -23,6 +23,12 @@ public class Contrato implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "codDNIoNIE")
 	private Futbolista futbolistaXXX;
+	
+	@ManyToOne
+	@JoinColumn(name = "codEquipo")
+	private Equipo equipoXXX;
+
+	
 
 	@Column(columnDefinition = "date")
 	private Date fechaInicio;
@@ -50,6 +56,14 @@ public class Contrato implements Serializable {
 
 	public void setFutbolistaXXX(Futbolista futbolistaXXX) {
 		this.futbolistaXXX = futbolistaXXX;
+	}
+	
+	public Equipo getEquipoXXX() {
+		return equipoXXX;
+	}
+
+	public void setEquipoXXX(Equipo equipoXXX) {
+		this.equipoXXX = equipoXXX;
 	}
 
 	public Date getFechaInicio() {
@@ -83,5 +97,14 @@ public class Contrato implements Serializable {
 	public void setPrecioRecision(int precioRecision) {
 		this.precioRecision = precioRecision;
 	}
+
+	@Override
+	public String toString() {
+		return  codContrato + " | " + futbolistaXXX.getNombre() + " | " + equipoXXX.getNomEquipo()
+				+ " | " + fechaInicio + " | " + fechaFin + " | " + precioAnual
+				+ " | " + precioRecision;
+	}
+	
+	
 
 }
