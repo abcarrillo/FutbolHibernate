@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -21,9 +23,9 @@ import javax.persistence.Table;
 public class Equipo implements Serializable{
 	
 	@Id
+	@Column ( columnDefinition= "integer")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column ( columnDefinition= "int(11)")
-	int codEquipo;
+	Integer codEquipo;
 	
 	@Column ( columnDefinition= "varchar(40)")
 	String nomEquipo;
@@ -35,12 +37,29 @@ public class Equipo implements Serializable{
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="equipoXXX")
 	private List<Contrato> contratos = new ArrayList<Contrato>();
 	
+	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn //no crea el campo 
+	private EquipoObservacion equipoObservacionXXX;
+	
 	@Column ( columnDefinition= "varchar(60)")
 	String localidad;
 	
 	@Column ( columnDefinition= "BIT")
 	boolean internacional;
 	
+
+	public Equipo() {
+		
+	}
+	
+	public Equipo(String nomEquipo, Liga ligaXXX, List<Contrato> contratos, String localidad,
+			boolean internacional) {
+		this.nomEquipo = nomEquipo;
+		this.ligaXXX = ligaXXX;
+		this.contratos = contratos;
+		this.localidad = localidad;
+		this.internacional = internacional;
+	}
 
 	public int getCodEquipo() {
 		return codEquipo;
@@ -88,6 +107,20 @@ public class Equipo implements Serializable{
 
 	public void setContratos(List<Contrato> contratos) {
 		this.contratos = contratos;
+	}
+	
+	
+
+	public EquipoObservacion getEquipoObservacionXXX() {
+		return equipoObservacionXXX;
+	}
+
+	public void setEquipoObservacionXXX(EquipoObservacion equipoObservacionXXX) {
+		this.equipoObservacionXXX = equipoObservacionXXX;
+	}
+
+	public void setCodEquipo(Integer codEquipo) {
+		this.codEquipo = codEquipo;
 	}
 
 	@Override

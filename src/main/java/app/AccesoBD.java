@@ -9,15 +9,27 @@ import org.hibernate.Session;
 
 public class AccesoBD {
 	
-	public static void insertarFutbolista(Futbolista futbolista, Date fechaInicio, Date fechaFin, int precioAnual) {
+	
+	public static void insertarObservacionEquipo(EquipoObservacion observacion) {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
-		sesion.beginTransaction();
-		try {
-			Contrato contrato = new Contrato();
-			contrato.setFechaInicio(fechaInicio);
-			contrato.setFechaFin(fechaFin);
-			contrato.setPrecioAnual(precioAnual);
 
+		try {
+			sesion.beginTransaction();
+			sesion.save(observacion);
+			sesion.getTransaction().commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			sesion.getTransaction().rollback();
+			System.out.println(e.getMessage());
+		}
+		sesion.close();
+	}
+
+	public static void insertarContrato(Contrato contrato) {
+		Session sesion = HibernateUtil.getSessionFactory().openSession();
+
+		try {
+			sesion.beginTransaction();
 			sesion.save(contrato);
 			sesion.getTransaction().commit();
 		} catch (Exception e) {
@@ -27,7 +39,22 @@ public class AccesoBD {
 		}
 		sesion.close();
 	}
-	
+
+	public static Liga getLigaPorID(String id) {
+		Liga resultado = null;
+		Session sesion = HibernateUtil.getSessionFactory().openSession();
+		try {
+			Liga consulta = (Liga) sesion.get(Liga.class, id);
+			resultado = consulta;
+		} catch (Exception e) {
+			// TODO: handle exception
+			sesion.getTransaction().rollback();
+			System.out.println(e.getMessage());
+		}
+		sesion.close();
+		return resultado;
+	}
+
 	public static Futbolista getFutbolistaPorDNI(String dni) {
 		Futbolista resultado = null;
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
@@ -49,18 +76,18 @@ public class AccesoBD {
 		try {
 			List<Futbolista> listaFutbolistas = q.getResultList();
 			for (Futbolista futbolista : listaFutbolistas) {
-				
+
 				System.out.println(futbolista.getCodDNIoNIE() + " | " + futbolista.getNombre() + " | "
 						+ futbolista.getNacionalidad());
 				List<Contrato> contratos = futbolista.getContratos();
 				System.out.println("- CONTRATOS DE ESTE FUTBOLISTA: ");
-				
+
 				for (Contrato contrato : contratos) {
 					System.out.println(contrato.getCodContrato() + " | " + contrato.getFechaInicio() + " | "
 							+ contrato.getFechaFin() + " | " + contrato.getPrecioAnual() + " | "
 							+ contrato.getPrecioRecision());
 				}
-				
+
 				System.out.println();
 			}
 		} catch (Exception e) {
@@ -70,11 +97,12 @@ public class AccesoBD {
 		}
 		sesion.close();
 	}
-	
+
 	public static void insertarFutbolista(String codDNIoNIE, String nombre, String nacionalidad) {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
-		sesion.beginTransaction();
+
 		try {
+			sesion.beginTransaction();
 			Futbolista futbolista = new Futbolista();
 			futbolista.setCodDNIoNIE(codDNIoNIE);
 			futbolista.setNombre(nombre);
@@ -89,6 +117,39 @@ public class AccesoBD {
 		}
 		sesion.close();
 	}
+	
+	public static Equipo getEquiporPorID(Integer id) {
+		Equipo resultado = null;
+		Session sesion = HibernateUtil.getSessionFactory().openSession();
+		try {
+			sesion.beginTransaction();
+			Equipo consulta = (Equipo) sesion.get(Equipo.class, id);
+			resultado = consulta;
+			sesion.getTransaction().commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			sesion.getTransaction().rollback();
+			System.out.println(e.getMessage());
+		}
+		sesion.close();
+		return resultado;
+	}
+	
+	public static EquipoObservacion getObservacionPorID(Integer id) {
+		EquipoObservacion resultado = null;
+		Session sesion = HibernateUtil.getSessionFactory().openSession();
+		try {
+			sesion.beginTransaction();
+			EquipoObservacion consulta = (EquipoObservacion) sesion.get(EquipoObservacion.class, id);
+			resultado = consulta;
+		} catch (Exception e) {
+			// TODO: handle exception
+			sesion.getTransaction().rollback();
+			System.out.println(e.getMessage());
+		}
+		sesion.close();
+		return resultado;
+	}
 
 	public static void listarEquipos() {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
@@ -101,7 +162,7 @@ public class AccesoBD {
 				System.out.println(equipo.getLigaXXX().toString());
 				System.out.println(" - CONTRATOS DE ESTE EQUIPO: ");
 				List<Contrato> contratos = equipo.getContratos();
-				
+
 				for (Contrato contrato : contratos) {
 					System.out.println(contrato.toString());
 					Futbolista futbolista = contrato.getFutbolistaXXX();
@@ -117,19 +178,30 @@ public class AccesoBD {
 		}
 		sesion.close();
 	}
-	
-	public static void insertarEquipo(String nomEquipo, boolean internacional, String localidad, Liga ligaXXX) {
+
+	public static void insertarEquipo(Equipo equipo) {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
-		sesion.beginTransaction();
+
 		try {
-			Equipo equipo = new Equipo();
-
-			equipo.setInternacional(internacional);
-			equipo.setLocalidad(localidad);
-			equipo.setNomEquipo(nomEquipo);
-			equipo.setLigaXXX(ligaXXX);
-
+			sesion.beginTransaction();
 			sesion.save(equipo);
+			sesion.getTransaction().commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			sesion.getTransaction().rollback();
+			System.out.println(e.getMessage());
+		}
+		sesion.close();
+	}
+
+	public static void eliminarEquipo(String id) {
+
+		Session sesion = HibernateUtil.getSessionFactory().openSession();
+
+		try {
+			sesion.beginTransaction();
+			Equipo consulta = (Equipo) sesion.get(Equipo.class, id);
+			sesion.delete(consulta);
 			sesion.getTransaction().commit();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -165,8 +237,9 @@ public class AccesoBD {
 
 	public static void insertarLiga(String codLiga, String nomLiga) {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
-		sesion.beginTransaction();
+		
 		try {
+			sesion.beginTransaction();
 			Liga liga = new Liga();
 			liga.setCodLiga(codLiga);
 			liga.setNomLiga(nomLiga);
@@ -181,7 +254,4 @@ public class AccesoBD {
 		sesion.close();
 	}
 
-	
-
-	
 }

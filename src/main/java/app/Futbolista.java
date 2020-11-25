@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +26,10 @@ public class Futbolista implements Serializable {
 	
 	@Column ( columnDefinition= "varchar(40)")
 	String nacionalidad;
+	
+	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@PrimaryKeyJoinColumn
+	private EquipoObservacion equipoObservacionXXX;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="futbolistaXXX")
 	private List<Contrato> contratos = new ArrayList<Contrato>();

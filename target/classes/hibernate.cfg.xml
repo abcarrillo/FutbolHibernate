@@ -29,12 +29,7 @@ pondríamos resource -->
 <mapping class="app.Futbolista" />
 <mapping class="app.Equipo" />
 <mapping class="app.Contrato" /> 
-<!--
-
-<mapping class="futbolistas" /> 
-<mapping class="equiposobservaciones" />  
-
--->
+<mapping class="app.EquipoObservacion" />  
 
  
 

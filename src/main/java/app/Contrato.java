@@ -42,6 +42,20 @@ public class Contrato implements Serializable {
 	@Column(columnDefinition = "int(11)")
 	private int precioRecision;
 
+	public Contrato() {
+		
+	}
+	
+	public Contrato(Futbolista futbolistaXXX, Equipo equipoXXX, Date fechaInicio, Date fechaFin, int precioAnual,
+			int precioRecision) {
+		this.futbolistaXXX = futbolistaXXX;
+		this.equipoXXX = equipoXXX;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
+		this.precioAnual = precioAnual;
+		this.precioRecision = precioRecision;
+	}
+
 	public int getCodContrato() {
 		return codContrato;
 	}
