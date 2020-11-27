@@ -31,7 +31,7 @@ public class Liga implements Serializable {
 	@Column(columnDefinition = "varchar(50)")
 	private String nomLiga;
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="ligaXXX")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="ligaXXX")
 	private List<Equipo> equipos = new ArrayList<Equipo>();
 
 	public String getCodLiga() {
@@ -61,6 +61,15 @@ public class Liga implements Serializable {
 	@Override
 	public String toString() {
 		return  codLiga + " | " + nomLiga;
+	}
+	
+	public Liga() {
+		
+	}
+
+	public Liga(String codLiga, String nomLiga) {
+		this.codLiga = codLiga;
+		this.nomLiga = nomLiga;
 	}
 	
 	

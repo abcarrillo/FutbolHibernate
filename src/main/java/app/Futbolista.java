@@ -27,11 +27,8 @@ public class Futbolista implements Serializable {
 	@Column ( columnDefinition= "varchar(40)")
 	String nacionalidad;
 	
-	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@PrimaryKeyJoinColumn
-	private EquipoObservacion equipoObservacionXXX;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="futbolistaXXX")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="futbolistaXXX")
 	private List<Contrato> contratos = new ArrayList<Contrato>();
 
 	public String getCodDNIoNIE() {
@@ -70,6 +67,18 @@ public class Futbolista implements Serializable {
 	public String toString() {
 		return  codDNIoNIE + " | " + nombre + " | " + nacionalidad;
 	}
+	
+	public Futbolista() {
+		
+	}
+
+	public Futbolista(String codDNIoNIE, String nombre, String nacionalidad) {
+		this.codDNIoNIE = codDNIoNIE;
+		this.nombre = nombre;
+		this.nacionalidad = nacionalidad;
+	}
+	
+	
 	
 	
 	

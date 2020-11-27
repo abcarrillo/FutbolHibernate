@@ -2,8 +2,11 @@ package app;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,11 +23,11 @@ public class Contrato implements Serializable {
 	@Column(columnDefinition = "int(11)")
 	private int codContrato;
 
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name = "codDNIoNIE")
 	private Futbolista futbolistaXXX;
 	
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name = "codEquipo")
 	private Equipo equipoXXX;
 
@@ -114,7 +117,7 @@ public class Contrato implements Serializable {
 
 	@Override
 	public String toString() {
-		return  codContrato + " | " + futbolistaXXX.getNombre() + " | " + equipoXXX.getNomEquipo()
+		return  codContrato + " | " + futbolistaXXX.getCodDNIoNIE() + " | " + equipoXXX.getCodEquipo()
 				+ " | " + fechaInicio + " | " + fechaFin + " | " + precioAnual
 				+ " | " + precioRecision;
 	}

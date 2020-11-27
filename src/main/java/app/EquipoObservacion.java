@@ -28,7 +28,7 @@ public class EquipoObservacion implements Serializable {
 	@Column(columnDefinition = "varchar(200)")
 	String observaciones;
 	
-	@OneToOne (cascade={CascadeType.PERSIST,CascadeType.REMOVE})
+	@OneToOne (cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Equipo EquipoXXX;
 
@@ -58,8 +58,17 @@ public class EquipoObservacion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "EquipoObservacion [codEquipo=" + codEquipo + ", observaciones=" + observaciones + ", EquipoXXX="
-				+ EquipoXXX + "]";
+		return  codEquipo + " | " + observaciones;
+	}
+	
+	public EquipoObservacion() {
+		
+	}
+
+	public EquipoObservacion(Integer codEquipo, String observaciones, Equipo equipoXXX) {
+		this.codEquipo = codEquipo;
+		this.observaciones = observaciones;
+		EquipoXXX = equipoXXX;
 	}
 
 	

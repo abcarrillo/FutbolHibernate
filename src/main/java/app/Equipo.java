@@ -18,6 +18,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="equipos")
 public class Equipo implements Serializable{
@@ -30,15 +33,15 @@ public class Equipo implements Serializable{
 	@Column ( columnDefinition= "varchar(40)")
 	String nomEquipo;
 	
-	@ManyToOne
+	@ManyToOne(cascade= {CascadeType.PERSIST}, fetch=FetchType.LAZY)
 	@JoinColumn(name="codLiga")
 	private Liga ligaXXX;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="equipoXXX")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="equipoXXX")
 	private List<Contrato> contratos = new ArrayList<Contrato>();
 	
-	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@PrimaryKeyJoinColumn //no crea el campo 
+	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn (name = "codEquipo") 
 	private EquipoObservacion equipoObservacionXXX;
 	
 	@Column ( columnDefinition= "varchar(60)")
@@ -122,6 +125,8 @@ public class Equipo implements Serializable{
 	public void setCodEquipo(Integer codEquipo) {
 		this.codEquipo = codEquipo;
 	}
+	
+	
 
 	@Override
 	public String toString() {
